@@ -86,4 +86,52 @@ TEST(ExecutorTest, should_return_y_minus_1_given_command_is_M_and_facing_is_S)
     const Pose target({0, -1, 'S'});  // 命令正确时的姿势
     ASSERT_EQ(target, executor->Query());
 }
+TEST(ExecutorTest, should_return_facing_N_given_command_is_L_and_facing_is_E)
+{
+    // given 给定一个executor
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+
+    // when 调用executor的Execute方法去执行命令
+    executor->Execute("L");
+
+    // then
+    const Pose target({0, 0, 'N'});  // 命令正确时的姿势
+    ASSERT_EQ(target, executor->Query());
+}
+TEST(ExecutorTest, should_return_facing_W_given_command_is_L_and_facing_is_N)
+{
+    // given 给定一个executor
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'N'}));
+
+    // when 调用executor的Execute方法去执行命令
+    executor->Execute("L");
+
+    // then
+    const Pose target({0, 0, 'W'});  // 命令正确时的姿势
+    ASSERT_EQ(target, executor->Query());
+}
+TEST(ExecutorTest, should_return_facing_S_given_command_is_L_and_facing_is_W)
+{
+    // given 给定一个executor
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'W'}));
+
+    // when 调用executor的Execute方法去执行命令
+    executor->Execute("L");
+
+    // then
+    const Pose target({0, 0, 'S'});  // 命令正确时的姿势
+    ASSERT_EQ(target, executor->Query());
+}
+TEST(ExecutorTest, should_return_facing_E_given_command_is_L_and_facing_is_S)
+{
+    // given 给定一个executor
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'S'}));
+
+    // when 调用executor的Execute方法去执行命令
+    executor->Execute("L");
+
+    // then
+    const Pose target({0, 0, 'E'});  // 命令正确时的姿势
+    ASSERT_EQ(target, executor->Query());
+}
 }  // namespace adas
