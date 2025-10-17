@@ -38,4 +38,16 @@ TEST(ExecutorTest, should_return_default_pose_when_without_init_and_command)
     const Pose target({0, 0, 'N'});
     ASSERT_EQ(target, executor->Query());
 }
+TEST(ExecutorTest, should_return_x_plus_1_given_command_is_M_and_facing_is_E)
+{
+    // given 给定一个executor
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+
+    // when 调用executor的Execute方法去执行命令
+    executor->Execute("M");
+
+    // then
+    const Pose target({1, 0, 'E'});  // 命令正确时的姿势
+    ASSERT_EQ(target, executor->Query());
+}
 }  // namespace adas

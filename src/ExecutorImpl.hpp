@@ -25,6 +25,8 @@ public:
 public:
     // 查询当前汽车姿态，是父类抽象方法Query的具体实现
     Pose Query(void) const noexcept override;
+    // 第二阶段新增的纯虚函数，执行一个用字符串表示的命令
+    void Execute(const std::string &commands) noexcept override;
 
 private:
     // 私有数据成员，汽车当前姿态
