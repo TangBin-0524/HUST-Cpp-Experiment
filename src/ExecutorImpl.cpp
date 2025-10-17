@@ -23,13 +23,27 @@ Executor *Executor::NewExecutor(const Pose &pose) noexcept
 }
 void ExecutorImpl::Execute(const std::string &commands) noexcept
 {
-    for(const auto cmd:commands){
-        if(cmd=='M')
-        {
-            if(pose.heading=='E'){++pose.x;}
-            else if(pose.heading=='W'){--pose.x;}
-            else if(pose.heading=='N'){++pose.y;}
-            else if(pose.heading=='S'){--pose.y;}
+    for (const auto cmd : commands) {
+        if (cmd == 'M') {
+            if (pose.heading == 'E') {
+                ++pose.x;
+            } else if (pose.heading == 'W') {
+                --pose.x;
+            } else if (pose.heading == 'N') {
+                ++pose.y;
+            } else if (pose.heading == 'S') {
+                --pose.y;
+            }
+        } else if (cmd == 'L') {
+            if (pose.heading == 'E') {
+                pose.heading = 'N';
+            } else if (pose.heading == 'W') {
+                pose.heading = 'S';
+            } else if (pose.heading == 'S') {
+                pose.heading = 'E';
+            } else if (pose.heading == 'N') {
+                pose.heading = 'W';
+            }
         }
     }
 }
