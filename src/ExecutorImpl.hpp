@@ -36,26 +36,33 @@ private:
     void Move(void) noexcept;
     void TurnLeft(void) noexcept;
     void TurnRight(void) noexcept;
-    class MoveCommand final
+    class ICommand
     {
     public:
-        void DoOperate(ExecutorImpl& executor) const noexcept
+        // 纯虚函数DoOperate留给子类去实现
+        virtual void DoOperate(ExecutorImpl& executor) const noexcept = 0;
+        virtual ~ICommand() noexcept = default;
+    };
+    class MoveCommand final : public ICommand
+    {
+    public:
+        void DoOperate(ExecutorImpl& executor) const noexcept override
         {
             executor.Move();
         }
     };
-    class TurnLeftCommand final
+    class TurnLeftCommand final : public ICommand
     {
     public:
-        void DoOperate(ExecutorImpl& executor) const noexcept
+        void DoOperate(ExecutorImpl& executor) const noexcept override
         {
             executor.TurnLeft();
         }
     };
-    class TurnRightCommand final
+    class TurnRightCommand final : public ICommand
     {
     public:
-        void DoOperate(ExecutorImpl& executor) const noexcept
+        void DoOperate(ExecutorImpl& executor) const noexcept override
         {
             executor.TurnRight();
         }
