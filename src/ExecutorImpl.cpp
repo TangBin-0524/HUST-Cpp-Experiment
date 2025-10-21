@@ -26,12 +26,13 @@ void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
     for (const auto cmd : commands) {
         if (cmd == 'M') {
-            //智能指针指向MoveCommand实例，不用担心delete了
-            std::unique_ptr<MoveCommand>cmder=std::make_unique<MoveCommand>();
+            // 智能指针指向MoveCommand实例，不用担心delete了
+            std::unique_ptr<MoveCommand> cmder = std::make_unique<MoveCommand>();
             //*this就是ExcutorImpl实例对象，作为实参传递给DoOperate方法
             cmder->DoOperate(*this);
         } else if (cmd == 'L') {
-            TurnLeft();
+            std::unique_ptr<TurnLeftCommand> cmder = std::make_unique<TurnLeftCommand>();
+            cmder->DoOperate(*this);
         } else if (cmd == 'R') {
             TurnRight();
         } else if (cmd == 'F') {
