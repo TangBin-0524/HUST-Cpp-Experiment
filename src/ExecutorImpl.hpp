@@ -32,10 +32,12 @@ private:
     // 私有数据成员，汽车当前姿态
     Pose pose;
     // 是否处于加速状态，默认是false
-    bool isFast;
+    bool fast{false};
     void Move(void) noexcept;
     void TurnLeft(void) noexcept;
     void TurnRight(void) noexcept;
+    void Fast(void) noexcept;
+    bool isFast(void) const noexcept;
     class ICommand
     {
     public:
@@ -48,6 +50,8 @@ private:
     public:
         void DoOperate(ExecutorImpl& executor) const noexcept override
         {
+            if (executor.isFast())
+                executor.Move();
             executor.Move();
         }
     };
@@ -56,6 +60,8 @@ private:
     public:
         void DoOperate(ExecutorImpl& executor) const noexcept override
         {
+            if (executor.isFast())
+                executor.Move();
             executor.TurnLeft();
         }
     };
@@ -64,7 +70,17 @@ private:
     public:
         void DoOperate(ExecutorImpl& executor) const noexcept override
         {
+            if (executor.isFast())
+                executor.Move();
             executor.TurnRight();
+        }
+    };
+    class FastCommand final : public ICommand
+    {
+    public:
+        void DoOperate(ExecutorImpl& executor) const noexcept override
+        {
+            executor.Fast();
         }
     };
 };
