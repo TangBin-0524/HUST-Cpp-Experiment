@@ -34,5 +34,6 @@ private:
     // 是否处于加速状态，默认是false
     bool isFast;
     void Move(void) noexcept;
+    void TurnLeft(void) noexcept;
 };
 }  // namespace adas
