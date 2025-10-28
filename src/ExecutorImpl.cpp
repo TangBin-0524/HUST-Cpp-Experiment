@@ -7,13 +7,13 @@
 
 namespace adas
 {
-ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : pose(pose), fast(false)
+ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : posehandler(pose)
 {
 }
 
 Pose ExecutorImpl::Query(void) const noexcept
 {
-    return pose;
+    return posehandler.Query();
 }
 /*
     std::nothrow 是C++标准库中的一个常量，用于指示在分配内存时不抛出任何异常。
@@ -39,52 +39,8 @@ void ExecutorImpl::Execute(const std::string& commands) noexcept
             cmder = std::make_unique<FastCommand>();
         }
         if (cmder) {
-            cmder->DoOperate(*this);
+            cmder->DoOperate(posehandler);
         }
     }
-}
-void ExecutorImpl::Move() noexcept
-{
-    if (pose.heading == 'E') {
-        ++pose.x;
-    } else if (pose.heading == 'W') {
-        --pose.x;
-    } else if (pose.heading == 'N') {
-        ++pose.y;
-    } else if (pose.heading == 'S') {
-        --pose.y;
-    }
-}
-void ExecutorImpl::TurnLeft() noexcept
-{
-    if (pose.heading == 'E') {
-        pose.heading = 'N';
-    } else if (pose.heading == 'W') {
-        pose.heading = 'S';
-    } else if (pose.heading == 'S') {
-        pose.heading = 'E';
-    } else if (pose.heading == 'N') {
-        pose.heading = 'W';
-    }
-}
-void ExecutorImpl::TurnRight() noexcept
-{
-    if (pose.heading == 'E') {
-        pose.heading = 'S';
-    } else if (pose.heading == 'W') {
-        pose.heading = 'N';
-    } else if (pose.heading == 'N') {
-        pose.heading = 'E';
-    } else if (pose.heading == 'S') {
-        pose.heading = 'W';
-    }
-}
-void ExecutorImpl::Fast(void) noexcept
-{
-    fast = !fast;
-}
-bool ExecutorImpl::isFast(void) const noexcept
-{
-    return fast;
 }
 }  // namespace adas

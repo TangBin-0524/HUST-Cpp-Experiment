@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Executor.hpp"
+#include "PoseHandler.hpp"
 
 namespace adas
 {
@@ -27,16 +28,8 @@ public:
     Pose Query(void) const noexcept override;
     // 第二阶段新增的纯虚函数，执行一个用字符串表示的命令
     void Execute(const std::string& commands) noexcept override;
-    void Move(void) noexcept;
-    void TurnLeft(void) noexcept;
-    void TurnRight(void) noexcept;
-    void Fast(void) noexcept;
-    bool isFast(void) const noexcept;
 
 private:
-    // 私有数据成员，汽车当前姿态
-    Pose pose;
-    // 是否处于加速状态，默认是false
-    bool fast{false};
+    PoseHandler posehandler;//状态管理类
 };
 }  // namespace adas
