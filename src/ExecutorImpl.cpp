@@ -1,5 +1,6 @@
 #include "ExecutorImpl.hpp"
 
+#include <functional>
 #include <memory>
 #include <new>
 #include <unordered_map>
@@ -28,21 +29,21 @@ Executor* Executor::NewExecutor(const Pose& pose) noexcept
 void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
     // 表驱动
-    std::unordered_map<char, std::unique_ptr<ICommand>> cmderMap;
+    std::unordered_map<char, std::function<void(PoseHandler & posehandler)>> cmderMap;
     // 建立操作M和前进指令的映射关系
-    cmderMap.emplace('M', std::make_unique<MoveCommand>());
+    cmderMap.emplace('M', MoveCommand());
 
     // 请大家自行实现：建立操作L、R、F的映射关系
-    cmderMap.emplace('L', std::make_unique<TurnLeftCommand>());
-    cmderMap.emplace('R', std::make_unique<TurnRightCommand>());
-    cmderMap.emplace('F', std::make_unique<FastCommand>());
+    cmderMap.emplace('L', TurnLeftCommand());
+    cmderMap.emplace('R', TurnRightCommand());
+    cmderMap.emplace('F', FastCommand());
 
     for (const auto cmd : commands) {
         // 根据操作查找表驱动
         const auto it = cmderMap.find(cmd);
         // 如果找到表驱动，执行操作对应的指令
         if (it != cmderMap.end()) {
-            it->second->DoOperate(posehandler);
+            it->second(posehandler);
         }
     }
 }
