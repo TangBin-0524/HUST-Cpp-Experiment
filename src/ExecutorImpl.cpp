@@ -29,14 +29,19 @@ Executor* Executor::NewExecutor(const Pose& pose) noexcept
 void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
     // 表驱动
-    std::unordered_map<char, std::function<void(PoseHandler & posehandler)>> cmderMap;
-    // 建立操作M和前进指令的映射关系
-    cmderMap.emplace('M', MoveCommand());
+    std::unordered_map<char, std::function<void(PoseHandler & posehandler)>> cmderMap{
+        {'M', MoveCommand()},
+        {'L', TurnLeftCommand()},
+        {'R', TurnRightCommand()},
+        {'F', FastCommand()},
+    };
+    // // 建立操作M和前进指令的映射关系
+    // cmderMap.emplace('M', MoveCommand());
 
-    // 请大家自行实现：建立操作L、R、F的映射关系
-    cmderMap.emplace('L', TurnLeftCommand());
-    cmderMap.emplace('R', TurnRightCommand());
-    cmderMap.emplace('F', FastCommand());
+    // // 请大家自行实现：建立操作L、R、F的映射关系
+    // cmderMap.emplace('L', TurnLeftCommand());
+    // cmderMap.emplace('R', TurnRightCommand());
+    // cmderMap.emplace('F', FastCommand());
 
     for (const auto cmd : commands) {
         // 根据操作查找表驱动
