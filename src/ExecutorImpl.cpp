@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <new>
+#include <unordered_map>
 
 #include "Command.hpp"
 
@@ -26,20 +27,22 @@ Executor* Executor::NewExecutor(const Pose& pose) noexcept
 }
 void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
+    // 表驱动
+    std::unordered_map<char, std::unique_ptr<ICommand>> cmderMap;
+    // 建立操作M和前进指令的映射关系
+    cmderMap.emplace('M', std::make_unique<MoveCommand>());
+
+    // 请大家自行实现：建立操作L、R、F的映射关系
+    cmderMap.emplace('L', std::make_unique<TurnLeftCommand>());
+    cmderMap.emplace('R', std::make_unique<TurnRightCommand>());
+    cmderMap.emplace('F', std::make_unique<FastCommand>());
+
     for (const auto cmd : commands) {
-        std::unique_ptr<ICommand> cmder;
-        if (cmd == 'M') {
-            // 智能指针指向MoveCommand实例，不用担心delete了
-            cmder = std::make_unique<MoveCommand>();
-        } else if (cmd == 'L') {
-            cmder = std::make_unique<TurnLeftCommand>();
-        } else if (cmd == 'R') {
-            cmder = std::make_unique<TurnRightCommand>();
-        } else if (cmd == 'F') {
-            cmder = std::make_unique<FastCommand>();
-        }
-        if (cmder) {
-            cmder->DoOperate(posehandler);
+        // 根据操作查找表驱动
+        const auto it = cmderMap.find(cmd);
+        // 如果找到表驱动，执行操作对应的指令
+        if (it != cmderMap.end()) {
+            it->second->DoOperate(posehandler);
         }
     }
 }
