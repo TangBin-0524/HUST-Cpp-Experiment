@@ -3,6 +3,8 @@
 #include <memory>
 #include <new>
 
+#include "Command.hpp"
+
 namespace adas
 {
 ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : pose(pose), fast(false)
