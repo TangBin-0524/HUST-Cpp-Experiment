@@ -4,48 +4,77 @@
 namespace adas
 {
 
-// class ICommand
-// {
-// public:
-//     // 纯虚函数DoOperate留给子类去实现
-//     virtual void DoOperate(PoseHandler& posehandler) const noexcept = 0;
-//     virtual ~ICommand() noexcept = default;
-// };
-class MoveCommand final// : public ICommand
-{
-public:
-    void operator()(PoseHandler& posehandler)const noexcept{
-        if (posehandler.IsFast())
-            posehandler.Move();
-        posehandler.Move();
-    }
-};
-class TurnLeftCommand final// : public ICommand
+class MoveCommand final
 {
 public:
     void operator()(PoseHandler& posehandler) const noexcept
     {
-        if (posehandler.IsFast())
-            posehandler.Move();
-        posehandler.TurnLeft();
+        if (posehandler.IsFast()) {
+            if (posehandler.IsReverse()) {
+                posehandler.Backward();
+            } else {
+                posehandler.Forward();
+            }
+        }
+        if (posehandler.IsReverse()) {
+            posehandler.Backward();
+        } else {
+            posehandler.Forward();
+        }
     }
 };
-class TurnRightCommand final// : public ICommand
+class TurnLeftCommand final
 {
 public:
     void operator()(PoseHandler& posehandler) const noexcept
     {
-        if (posehandler.IsFast())
-            posehandler.Move();
-        posehandler.TurnRight();
+        if (posehandler.IsFast()) {
+            if (posehandler.IsReverse()) {
+                posehandler.Backward();
+            } else {
+                posehandler.Forward();
+            }
+        }
+        if (posehandler.IsReverse()) {
+            posehandler.TurnRight();
+        } else {
+            posehandler.TurnLeft();
+        }
     }
 };
-class FastCommand final// : public ICommand
+class TurnRightCommand final
+{
+public:
+    void operator()(PoseHandler& posehandler) const noexcept
+    {
+        if (posehandler.IsFast()) {
+            if (posehandler.IsReverse()) {
+                posehandler.Backward();
+            } else {
+                posehandler.Forward();
+            }
+        }
+        if (posehandler.IsReverse()) {
+            posehandler.TurnLeft();
+        } else {
+            posehandler.TurnRight();
+        }
+    }
+};
+class FastCommand final
 {
 public:
     void operator()(PoseHandler& posehandler) const noexcept
     {
         posehandler.Fast();
+    }
+};
+class ReverseCommand final
+{
+public:
+    void operator()(PoseHandler& posehandler) const noexcept
+    {
+        posehandler.Reverse();
     }
 };
 }  // namespace adas

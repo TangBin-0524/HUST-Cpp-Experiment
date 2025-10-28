@@ -34,14 +34,8 @@ void ExecutorImpl::Execute(const std::string& commands) noexcept
         {'L', TurnLeftCommand()},
         {'R', TurnRightCommand()},
         {'F', FastCommand()},
+        {'B', ReverseCommand()},
     };
-    // // 建立操作M和前进指令的映射关系
-    // cmderMap.emplace('M', MoveCommand());
-
-    // // 请大家自行实现：建立操作L、R、F的映射关系
-    // cmderMap.emplace('L', TurnLeftCommand());
-    // cmderMap.emplace('R', TurnRightCommand());
-    // cmderMap.emplace('F', FastCommand());
 
     for (const auto cmd : commands) {
         // 根据操作查找表驱动
