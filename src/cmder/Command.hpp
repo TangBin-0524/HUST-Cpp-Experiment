@@ -1,8 +1,8 @@
 #pragma once
 #include <functional>
 
+#include "../core/PoseHandler.hpp"
 #include "ActionGroup.hpp"
-#include "PoseHandler.hpp"
 
 namespace adas
 {

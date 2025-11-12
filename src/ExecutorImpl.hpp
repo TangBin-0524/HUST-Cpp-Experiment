@@ -14,7 +14,7 @@ class ExecutorImpl final : public Executor
 {
 public:
     // 构造函数
-    explicit ExecutorImpl(const Pose& pose) noexcept;
+    explicit ExecutorImpl(const Pose& pose, const ExecutorType& executorType) noexcept;
     // 默认析构函数
     ~ExecutorImpl() noexcept = default;
 
@@ -31,5 +31,6 @@ public:
 
 private:
     PoseHandler posehandler;  // 状态管理类
+    ExecutorType executorType;
 };
 }  // namespace adas

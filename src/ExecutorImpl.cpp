@@ -12,7 +12,8 @@
 
 namespace adas
 {
-ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : posehandler(pose)
+ExecutorImpl::ExecutorImpl(const Pose& pose, const ExecutorType& executorType) noexcept
+    : posehandler(pose), executorType(executorType)
 {
 }
 
@@ -25,9 +26,9 @@ Pose ExecutorImpl::Query(void) const noexcept
     它是std::nothrow_t 类型的实例，通常用在new运算符和std::nothrow命名空间中，
     以请求内存分配器在分配失败是返回一个空指针，而不是抛出std::bad_alloc异常
 */
-Executor* Executor::NewExecutor(const Pose& pose) noexcept
+Executor* Executor::NewExecutor(const Pose& pose, const ExecutorType& executorType) noexcept
 {
-    return new (std::nothrow) ExecutorImpl(pose);
+    return new (std::nothrow) ExecutorImpl(pose, executorType);
 }
 void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
