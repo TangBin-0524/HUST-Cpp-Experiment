@@ -93,16 +93,13 @@ void ActionGroup::PushAction(const ActionType actionType) noexcept
 void ActionGroup::DoOperate(PoseHandler& poseHandler) const noexcept
 {
     static std::vector<std::function<void(PoseHandler & poseHandler)>> actionVec = {
-        ForwardAction(),         BackwardAction(),  TurnLeftAction(),
-        ReverseTurnLeftAction(), TurnRightAction(), ReverseTurnRightAction(),
-        BeFastAction(), 
-        BeReverseAction(),
+        ForwardAction(),   BackwardAction(),         TurnLeftAction(), ReverseTurnLeftAction(),
+        TurnRightAction(), ReverseTurnRightAction(), BeFastAction(),   BeReverseAction(),
     };
 
-    std::for_each(actions.begin(), actions.end(),
-                  [&poseHandler](const ActionType actionType) mutable noexcept {
-                      actionVec[static_cast<uint16_t>(actionType)](poseHandler);
-                  });
+    std::for_each(actions.begin(), actions.end(), [&poseHandler](const ActionType actionType) mutable noexcept {
+        actionVec[static_cast<uint16_t>(actionType)](poseHandler);
+    });
 }
 
 }  // namespace adas

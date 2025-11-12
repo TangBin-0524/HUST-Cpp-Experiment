@@ -6,9 +6,9 @@
 // #include <new>
 // #include <unordered_map>
 
-#include "CmderFactory.hpp"
-#include "Command.hpp"
-#include "Singleton.hpp"
+#include "cmder/CmderFactory.hpp"
+#include "cmder/Command.hpp"
+#include "core/Singleton.hpp"
 
 namespace adas
 {
