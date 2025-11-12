@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 
+#include <iostream>
+
 #include "Executor.hpp"
 #include "PoseEq.hpp"
 

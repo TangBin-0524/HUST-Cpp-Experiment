@@ -24,6 +24,8 @@ public:
     explicit ActionGroup(const std::list<ActionType>& actions) noexcept;
     ~ActionGroup() = default;
 
+    ActionGroup& operator+=(const ActionGroup& rhs) noexcept;
+
 public:
     void PushAction(const ActionType actionType) noexcept;
     void DoOperate(PoseHandler& poseHandler) const noexcept;

@@ -86,6 +86,12 @@ ActionGroup::ActionGroup(const std::list<ActionType>& actions) noexcept : action
 {
 }
 
+ActionGroup& ActionGroup::operator+=(const ActionGroup& rhs) noexcept
+{
+    actions.insert(actions.end(), rhs.actions.begin(), rhs.actions.end());
+    return *this;
+}
+
 void ActionGroup::PushAction(const ActionType actionType) noexcept
 {
     actions.push_back(actionType);
@@ -96,7 +102,6 @@ void ActionGroup::DoOperate(PoseHandler& poseHandler) const noexcept
         ForwardAction(),   BackwardAction(),         TurnLeftAction(), ReverseTurnLeftAction(),
         TurnRightAction(), ReverseTurnRightAction(), BeFastAction(),   BeReverseAction(),
     };
-
     std::for_each(actions.begin(), actions.end(), [&poseHandler](const ActionType actionType) mutable noexcept {
         actionVec[static_cast<uint16_t>(actionType)](poseHandler);
     });
