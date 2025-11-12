@@ -88,5 +88,33 @@ public:
         return actionGroup;
     }
 };
-
+class TurnRoundCommand final
+{
+public:
+    ActionGroup operator()(PoseHandler& poseHandler) const noexcept
+    {
+        // 如果是倒车状态
+        if (poseHandler.IsReverse()) {
+            return ActionGroup();  // 在倒车状态下，什么都不做
+        } else {
+            if (poseHandler.IsFast()) {
+                return ActionGroup({
+                    // 在F状态下，TR指令需要四个原子Action
+                    ActionType::FORWARD_1_STEP_ACTION,  // 向前一步
+                    ActionType::TURNLEFT_ACTION,        // 左转
+                    ActionType::FORWARD_1_STEP_ACTION,  // 向前一步
+                    ActionType::TURNLEFT_ACTION,        // 左转
+                });
+            } else {
+                // 正常状态
+                return ActionGroup({
+                    // 在正常状态下，TR指令需要三个原子Action
+                    ActionType::TURNLEFT_ACTION,        // 左转
+                    ActionType::FORWARD_1_STEP_ACTION,  // 向前一步
+                    ActionType::TURNLEFT_ACTION,        // 左转
+                });
+            }
+        }
+    }
+};
 }  // namespace adas
