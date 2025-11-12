@@ -1,11 +1,14 @@
 #include "ExecutorImpl.hpp"
 
+#include <algorithm>
 #include <functional>
-#include <memory>
-#include <new>
-#include <unordered_map>
+// #include <memory>
+// #include <new>
+// #include <unordered_map>
 
+#include "CmderFactory.hpp"
 #include "Command.hpp"
+#include "Singleton.hpp"
 
 namespace adas
 {
@@ -28,22 +31,9 @@ Executor* Executor::NewExecutor(const Pose& pose) noexcept
 }
 void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
-    // 表驱动
-    std::unordered_map<char, std::function<void(PoseHandler & posehandler)>> cmderMap{
-        {'M', MoveCommand()},
-        {'L', TurnLeftCommand()},
-        {'R', TurnRightCommand()},
-        {'F', FastCommand()},
-        {'B', ReverseCommand()},
-    };
+    const auto cmders = Singleton<CmderFactory>::Instance().GetCmders(commands);
 
-    for (const auto cmd : commands) {
-        // 根据操作查找表驱动
-        const auto it = cmderMap.find(cmd);
-        // 如果找到表驱动，执行操作对应的指令
-        if (it != cmderMap.end()) {
-            it->second(posehandler);
-        }
-    }
+    std::for_each(cmders.begin(), cmders.end(),
+                  [this](const std::function<void(PoseHandler & posehandler)>& cmder) noexcept { cmder(posehandler); });
 }
 }  // namespace adas
